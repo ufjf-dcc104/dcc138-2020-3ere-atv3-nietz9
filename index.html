@@ -9,13 +9,20 @@
 <body>
     <h1>Exemplo 02</h1>
     <canvas></canvas>
-    <img src="assets/link.png"/>
+    <img src="assets/link00.png"/>
     <script>
         const canvas =  document.querySelector("canvas");
         const ctx = canvas.getContext("2d");
-        
+        const heroi =  document.querySelector("img");
+
+        heroi.addEventListener("load", carregado);
+
         ctx.fillStyle = "green";
         ctx.fillRect(0,0,canvas.width, canvas.height, canvas);
+
+        function carregado(){
+            ctx.drawImage(heroi, 0, 0);
+        }
     </script>
 </body>
 </html>
