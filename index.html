@@ -13,15 +13,23 @@
         const canvas =  document.querySelector("canvas");
         const ctx = canvas.getContext("2d");
         const heroi = new Image();
-        heroi.src = "assets/link00.png";
+        heroi.src = "assets/link-modificado.png";
 
         heroi.addEventListener("load", carregado);
 
         ctx.fillStyle = "green";
         ctx.fillRect(0,0,canvas.width, canvas.height, canvas);
 
+        let c = 0;
+        let l = 0;
+
         function carregado(){
-            ctx.drawImage(heroi, 0, 0);
+            ctx.drawImage(heroi, 
+            //sx, sy, sw, sw
+            (16*c), (0*l), 16, 16, 
+            //dx, dy, dw, dh
+            0, 0, 16, 16
+            );
         }
     </script>
 </body>
