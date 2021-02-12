@@ -6,31 +6,219 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exemplo 02</title>
 </head>
+
+A partir desse momento, o código vai variar bastante do que está no vídeo, pq eu escolhi uma sprite-sheet muito infeliz para o exemplo e a hora limite já está chegando e não dá tempo de escolher outra
+Me desculpa Igor, não me odeie e não me tira ponto pfv eu preciso passar nessa matéria ;w;
+
 <body>
     <h1>Exemplo 02</h1>
     <canvas></canvas>
+    <h3>Mude a direção de Link com as direcionais e aperte z para atacar.<br>Você pode trocar de arma apertando os números 1 a 5.
+    </h3>
+
     <script> 
         const canvas =  document.querySelector("canvas");
         const ctx = canvas.getContext("2d");
         const heroi = new Image();
         heroi.src = "assets/link-modificado.png";
-
         heroi.addEventListener("load", carregado);
 
-        ctx.fillStyle = "green";
-        ctx.fillRect(0,0,canvas.width, canvas.height, canvas);
+        const arma = new Image();
+        arma.src = "assets/link-modificado.png";
+        arma.addEventListener("load", carregado);
 
+        function desenhaFundo()
+        {
+            ctx.fillStyle = "green";
+            ctx.fillRect(0,0,canvas.width, canvas.height, canvas);
+        }
         let c = 0;
-        let l = 0;
+        let lh= 0;
+        let la = 0;
 
-        function carregado(){
+        function carregado(){}
+
+        let t0;
+        let dt;
+        let t0a = 0;
+        let ta;
+        let xArma = 300;
+        let yArma = 300;
+        
+        requestAnimationFrame(passo);
+        function passo(t){
+            desenhaFundo();
+            t0 = t0 ?? t;
+            dt = (t - t0)/1000;
+
+            if(ta < 3)
+            {
+                if((performance.now()-t0a)/17 > 10)
+                {
+                    t0a = performance.now();
+                    ta++;
+                };
+                switch(ta)
+                {
+                    case 0:
+                        lh=1;
+                        desenhaArma(0, c);
+                        break;
+                    case 1:
+                        lh=0;
+                        desenhaArma(1, c);
+                        break;
+                    case 2:
+                        lh=0;
+                        desenhaArma(2, c);
+                        break; 
+                }
+            }
+            else
+            {
+                lh=0;
+                xArma = 300;
+                yArma = 300;
+            }
+            
+            ctx.drawImage(arma, 
+            //sx, sy, sw, sw
+            c*16, 48+(la*16), 16, 16, 
+            //dx, dy, dw, dh
+            xArma, yArma, 32, 32
+            );
             ctx.drawImage(heroi, 
             //sx, sy, sw, sw
-            (16*c), (16*l), 16, 16, 
+            c*16, lh*16, 16, 16, 
             //dx, dy, dw, dh
-            0, 0, 16, 16
+            120, 50, 32, 32
             );
+
+            requestAnimationFrame(passo);
+             t0 = t;
         }
+
+        addEventListener("keydown", teclaPressionada);
+        function teclaPressionada(event){
+
+            console.log(event.key);
+            switch (event.key){
+                case "ArrowUp": 
+                    c=3;
+                    break;
+                case "ArrowDown":
+                    c=0; 
+                    break;
+                
+                case "ArrowLeft":
+                    c=2; 
+                    break;
+                
+                case "ArrowRight":
+                    c=1; 
+                    break;
+
+                case "1":
+                    la = 0;
+                    break;
+                case "2":
+                    la = 1;
+                    break;
+                case "3":
+                    la = 2;
+                    break;
+                case "4":
+                    la = 3;
+                    break;
+                case "5":
+                    la = 4;
+                    break;
+                case "z":
+                    t0a = performance.now();
+                    ta = 0;
+                    break;
+                case "Z":
+                    t0a = performance.now();
+                    ta = 0;
+                break;
+            }
+        }
+
+            function desenhaArma(i, j){
+                console.log(i,j);
+                switch(j)
+                {
+                    case 0:
+                        if(i==0)
+                        {
+                            xArma=121;
+                            yArma=67;
+                        }
+                        else if(i==1)
+                        {
+                            xArma=121;
+                            yArma=60;
+                        }
+                        else if(i==2)
+                        {
+                            xArma=121;
+                            yArma=55;
+                        }
+                        break;
+                    case 1:
+                        if(i==0)
+                        {
+                            xArma=131;
+                            yArma=51;
+                        }
+                        if(i==1)
+                        {
+                            xArma=126;
+                            yArma=51;
+                        }
+                        if(i==2)
+                        {
+                            xArma=123;
+                            yArma=51;
+                        }
+                        break;
+                    case 2:
+                        if(i==0)
+                        {
+                            xArma=106;
+                            yArma=49;
+                        }
+                        if(i==1)
+                        {
+                            xArma=113;
+                            yArma=49;
+                        }
+                        if(i==2)
+                        {
+                            xArma=117;
+                            yArma=49;
+                        }
+                        break;
+                    case 3:
+                        if(i==0)
+                        {
+                            xArma=119;
+                            yArma=38;
+                        }
+                        if(i==1)
+                        {
+                            xArma=119;
+                            yArma=39;
+                        }
+                        if(i==2)
+                        {
+                            xArma=119;
+                            yArma=47;
+                        }
+                        break;
+                }
+            }
+
     </script>
 </body>
 </html>
